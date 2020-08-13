@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
             )
           ],
           elevation: 0,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.blueAccent,
           title: showVol
               ? Slider(
                   value: audioManagerInstance.volume ?? 0,

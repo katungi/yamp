@@ -16,8 +16,6 @@ class SongWidget extends StatelessWidget {
           SongInfo song = songList[songIndex];
 //          String songPathRaw = song.filePath;
 //          String songPath = songPathRaw.split(" ").join("");
-          if (song.displayName.contains(".mp3") ||
-              song.displayName.contains(".m4a"))
 //            print(song.displayName);
             return InkWell(
               onTap: () {
