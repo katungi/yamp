@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
             )
           ],
           elevation: 0,
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.black,
           title: showVol
               ? Slider(
                   value: audioManagerInstance.volume ?? 0,
@@ -100,7 +100,6 @@ class _MyAppState extends State<MyApp> {
                     .getSongs(sortType: SongSortType.DISPLAY_NAME),
                 builder: (context, snapshot) {
                   List<SongInfo> songInfo = snapshot.data;
-                  print(songInfo);
                   if (snapshot.hasData) return SongWidget(songList: songInfo);
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.2,
