@@ -2,6 +2,7 @@ import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:yamp/widget.dart';
+
 import 'music.dart';
 
 void main() {
@@ -21,37 +22,29 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setupAudio() {
-    AudioManager.instance.onEvents((events, args) {
+    audioManagerInstance.onEvents((events, args) {
       switch (events) {
         case AudioManagerEvents.start:
           _slider = 0;
           break;
         case AudioManagerEvents.seekComplete:
-          _slider = AudioManager.instance.position.inMilliseconds /
-              AudioManager.instance.duration.inMilliseconds;
-          setState(() {
-
-          });
+          _slider = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          setState(() {});
           break;
         case AudioManagerEvents.playstatus:
-          isPlaying = AudioManager.instance.isPlaying;
-          setState(() {
-
-          });
+          isPlaying = audioManagerInstance.isPlaying;
+          setState(() {});
           break;
         case AudioManagerEvents.timeupdate:
-          _slider = AudioManager.instance.position.inMilliseconds /
-              AudioManager.instance.duration.inMilliseconds;
-          AudioManager.instance.updateLrc(args["position"].toString());
-          setState(() {
-
-          });
+          _slider = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          audioManagerInstance.updateLrc(args["position"].toString());
+          setState(() {});
           break;
         case AudioManagerEvents.ended:
-          AudioManager.instance.next();
-          setState(() {
-            
-          });
+          audioManagerInstance.next();
+          setState(() {});
           break;
         default:
           break;
@@ -59,7 +52,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -82,7 +75,6 @@ class _MyAppState extends State<MyApp> {
                     iconSize: 20,
                     iconData: Icons.volume_down),
               ),
-             )
             )
           ],
           elevation: 0,
@@ -96,21 +88,22 @@ class _MyAppState extends State<MyApp> {
                     });
                   },
                 )
-              : Text("Music app demo"),
+              : Text("Yamp"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              height: 500,
+              height: 400,
               child: FutureBuilder(
                 future: FlutterAudioQuery()
-                    .getSongs(sortType: SongSortType.RECENT_YEAR),
+                    .getSongs(sortType: SongSortType.DISPLAY_NAME),
                 builder: (context, snapshot) {
                   List<SongInfo> songInfo = snapshot.data;
+                  print(songInfo);
                   if (snapshot.hasData) return SongWidget(songList: songInfo);
                   return Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -263,4 +256,3 @@ bool showVol = false;
 PlayMode playMode = audioManagerInstance.playMode;
 bool isPlaying = false;
 double _slider;
-

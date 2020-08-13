@@ -14,63 +14,80 @@ class SongWidget extends StatelessWidget {
         itemCount: songList.length,
         itemBuilder: (context, songIndex) {
           SongInfo song = songList[songIndex];
-          if (song.displayName.contains(".mp3"))
-            return Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    ClipRRect(
-                      child: Image(
-                        height: 90,
-                        width: 150,
-                        fit: BoxFit.cover,
-                        image: FileImage(File(song.albumArtwork)),
+//          String songPathRaw = song.filePath;
+//          String songPath = songPathRaw.split(" ").join("");
+          if (song.displayName.contains(".mp3") ||
+              song.displayName.contains(".m4a"))
+//            print(song.displayName);
+            return InkWell(
+              onTap: () {
+                AudioManager.instance
+                    .start("file://${song.filePath}", song.title,
+                        desc: song.displayName,
+                        auto: true,
+                        cover: song.albumArtwork)
+                    .then((err) {
+                  print(err);
+                });
+              },
+              child: Card(
+                shadowColor: Colors.blue,
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      ClipRRect(
+                        child: Image(
+                          height: 90,
+                          width: 150,
+                          fit: BoxFit.cover,
+                          image: FileImage(File(song.albumArtwork)),
+                        ),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                child: Text(song.title,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: Text(song.title,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700)),
+                                ),
+                                Text("Release Year: ${song.year}",
                                     style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700)),
-                              ),
-                              Text("Release Year: ${song.year}",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500)),
-                              Text("Artist: ${song.artist}",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500)),
-                              Text("Composer: ${song.composer}",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500)),
-                              Text(
-                                  "Duration: ${parseToMinutesSeconds(int.parse(song.duration))} min",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500)),
-                            ],
-                          ),
-                          InkWell(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500)),
+                                Text("Artist: ${song.artist}",
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500)),
+//                              Text("Composer: ${song.composer}",
+//                                  style: TextStyle(
+//                                      fontSize: 11,
+//                                      color: Colors.grey,
+//                                      fontWeight: FontWeight.w500)),
+                                Text(
+                                    "Duration: ${parseToMinutesSeconds(int.parse(song.duration))} min",
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                            InkWell(
                               onTap: () {
                                 AudioManager.instance
                                     .start(
@@ -89,11 +106,12 @@ class SongWidget extends StatelessWidget {
                                 textColor: Colors.black,
                                 iconSize: 25,
                               ),
-                           )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
