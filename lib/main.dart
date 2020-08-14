@@ -101,6 +101,7 @@ class _MyAppState extends State<MyApp> {
                 builder: (context, snapshot) {
                   List<SongInfo> songInfo = snapshot.data;
                   if (snapshot.hasData) return SongWidget(songList: songInfo);
+                  print("$snapshot");
                   return Container(
                     height: MediaQuery.of(context).size.height * 0.2,
                     child: Center(
