@@ -1,6 +1,7 @@
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:yamp/song_detail.dart';
 import 'package:yamp/widget.dart';
 
 import 'music.dart';
@@ -56,6 +57,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/home': (context) => SongDetailPage(),
+      },
       home: Scaffold(
         drawer: Drawer(),
         appBar: AppBar(
@@ -88,7 +92,7 @@ class _MyAppState extends State<MyApp> {
                     });
                   },
                 )
-              : Text("Yamp"),
+              : Text("Yamp"),  
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

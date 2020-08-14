@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   flutter_audio_query: ^0.3.5+6
   audio_manager: ^0.5.5+3
+  font_awesome_flutter: ^8.8.1
 
 dev_dependencies:
   flutter_test:
